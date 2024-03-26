@@ -13,8 +13,6 @@ pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 df
 
-df.tail()
-
 num_males = (df['Sex'] == 'male').sum()
 print(num_males)
 
@@ -23,6 +21,14 @@ print(num_females)
 
 gender_count = df['Sex'].value_counts()
 print(gender_count)
+
+import pandas as pd
+df = pd.read_csv('train.csv')
+total_nan_values = df.isna().sum().sum()
+print(total_nan_values)
+
+nan_counts = df.isna().sum()
+print(nan_counts)
 
 import matplotlib.pyplot as plt
 
@@ -35,16 +41,118 @@ plt.title('Gender Distribution on the Ship')
 plt.axis('equal')
 plt.show()
 
-import pandas as pd
-df = pd.read_csv('train.csv')
-total_nan_values = df.isna().sum().sum()
-print(total_nan_values)
-
-nan_counts = df.isna().sum()
-print(nan_counts)
-
 columns_with_nan = df.columns[df.isna().any()].tolist()
 print(columns_with_nan)
 
+import pandas as pd
+import matplotlib.pyplot as plt
 
+# Load Titanic data from CSV file
+titanic_data = pd.read_csv("train.csv")
+
+# Calculate total passengers and total passengers who survived
+total_passengers = len(titanic_data)
+total_survived = titanic_data['Survived'].sum()
+
+# Calculate passengers who did not survive
+total_not_survived = total_passengers - total_survived
+
+# Create labels and sizes for the pie chart
+labels = ['Passengers Dead', 'Passengers Survived']
+sizes = [total_passengers, total_survived]
+
+# Plotting pie chart
+plt.figure(figsize=(8, 6))
+plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
+plt.title('Passengers Dead vs. Passengers Who Survived')
+plt.axis('equal')
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load Titanic data from CSV file
+titanic_data = pd.read_csv("train.csv")
+
+# Calculate total passengers, total passengers alive, and total passengers who died
+total_passengers = len(titanic_data)
+total_alive_passengers = titanic_data['Survived'].sum()
+total_dead_passengers = total_passengers - total_alive_passengers
+
+# Create a DataFrame for plotting
+passengers_data = pd.DataFrame({'Total Passengers': [total_passengers],
+                                'Alive Passengers': [total_alive_passengers],
+                                'Dead Passengers': [total_dead_passengers]})
+
+# Plotting
+passengers_data.plot(kind='bar', figsize=(6, 6))
+plt.title('Total Passengers vs. Alive vs. Dead Passengers on Titanic')
+plt.xlabel('Category')
+plt.ylabel('Count')
+plt.xticks(rotation=0)
+plt.legend(title='Passenger Status')
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load Titanic data from CSV file
+titanic_data = pd.read_csv("train.csv")
+
+# Calculate total passengers who survived and total passengers who did not survive
+total_survived = titanic_data['Survived'].sum()
+total_not_survived = len(titanic_data) - total_survived
+
+# Create labels and sizes for the pie chart
+labels = ['Passengers Survived', 'Passengers Dead']
+sizes = [total_survived, total_not_survived]
+
+# Plotting pie chart
+plt.figure(figsize=(8, 6))
+plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
+plt.title('Passengers Who Survived vs. Passengers Who Died on Titanic')
+plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load Titanic data from CSV file
+titanic_data = pd.read_csv("train.csv")
+
+# Calculate total males and total males who died
+total_females = (titanic_data['Sex'] == 'female').sum()
+total_females_died = ((titanic_data['Sex'] == 'female') & (titanic_data['Survived'] == 0)).sum()
+
+# Create labels and sizes for the pie chart
+labels = ['Total Females', 'Females Who Died']
+sizes = [total_females, total_females_died]
+
+# Plotting pie chart
+plt.figure(figsize=(8, 6))
+plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
+plt.title('Total Females vs. Females Who Died on Titanic')
+plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load Titanic data from CSV file
+titanic_data = pd.read_csv("train.csv")
+
+# Calculate total males and total males who died
+total_males = (titanic_data['Sex'] == 'male').sum()
+total_males_died = ((titanic_data['Sex'] == 'male') & (titanic_data['Survived'] == 0)).sum()
+
+# Create labels and sizes for the pie chart
+labels = ['Total Males', 'Males Who Died']
+sizes = [total_males, total_males_died]
+
+# Plotting pie chart
+plt.figure(figsize=(8, 6))
+plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
+plt.title('Total Males vs. Males Who Died on Titanic')
+plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+plt.show()
 
