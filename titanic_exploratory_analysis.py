@@ -8,6 +8,7 @@ Original file is located at
 """
 
 import pandas as pd
+import matplotlib.pyplot as plt
 df = pd.read_csv('train.csv')
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
@@ -22,17 +23,13 @@ print(num_females)
 gender_count = df['Sex'].value_counts()
 print(gender_count)
 
-import pandas as pd
-df = pd.read_csv('train.csv')
 total_nan_values = df.isna().sum().sum()
 print(total_nan_values)
 
 nan_counts = df.isna().sum()
 print(nan_counts)
 
-import matplotlib.pyplot as plt
-
-gender_counts = {'Male': 577, 'Female': 314}
+gender_counts = {'Male': num_males, 'Female': num_females}
 
 plt.figure(figsize=(5, 5))
 plt.pie(gender_counts.values(), labels=gender_counts.keys(), autopct='%1.1f%%')
@@ -43,13 +40,10 @@ plt.show()
 columns_with_nan = df.columns[df.isna().any()].tolist()
 print(columns_with_nan)
 
-import pandas as pd
-import matplotlib.pyplot as plt
+rows,columns = df.shape
 
-titanic_data = pd.read_csv("train.csv")
-
-total_passengers = len(titanic_data)
-total_survived = titanic_data['Survived'].sum()
+total_passengers = rows
+total_survived = df['Survived'].sum()
 
 total_not_survived = total_passengers - total_survived
 
@@ -62,43 +56,30 @@ plt.title('Passengers Dead vs. Passengers Who Survived')
 plt.axis('equal')
 plt.show()
 
-import pandas as pd
-import matplotlib.pyplot as plt
-
-
-titanic_data = pd.read_csv("train.csv")
-
-total_passengers = len(titanic_data)
-total_alive_passengers = titanic_data['Survived'].sum()
+total_passengers =  rows
+total_alive_passengers = df['Survived'].sum()
 total_dead_passengers = total_passengers - total_alive_passengers
 
+passengers_data = pd.DataFrame({'Alive Passengers': [total_alive_passengers],
+                                'Dead Passengers': [total_dead_passengers]},
+                                index=['Total Passengers'])
 
-passengers_data = pd.DataFrame({'Total Passengers': [total_passengers],
-                                'Alive Passengers': [total_alive_passengers],
-                                'Dead Passengers': [total_dead_passengers]})
-
-
-passengers_data.plot(kind='bar', figsize=(6, 6))
+passengers_data.plot(kind='bar', stacked=True, figsize=(6, 6))
 plt.title('Total Passengers vs. Alive vs. Dead Passengers on Titanic')
 plt.xlabel('Category')
 plt.ylabel('Count')
 plt.legend(title='Passenger Status')
 plt.show()
 
-total_passengers = len(titanic_data)
-total_alive_passengers = titanic_data['Survived'].sum()
+total_passengers = rows
+total_alive_passengers = df['Survived'].sum()
 total_dead_passengers = total_passengers - total_alive_passengers
 print("Total Passengers: ",total_passengers)
 print("Total dead people:",total_dead_passengers)
 print("Total alive people:",total_alive_passengers)
 
-import pandas as pd
-import matplotlib.pyplot as plt
-
-titanic_data = pd.read_csv("train.csv")
-
-total_survived = titanic_data['Survived'].sum()
-total_not_survived = len(titanic_data) - total_survived
+total_survived = df['Survived'].sum()
+total_not_survived = rows - total_survived
 
 labels = ['Passengers Survived', 'Passengers Dead']
 sizes = [total_survived, total_not_survived]
@@ -108,13 +89,8 @@ plt.pie(sizes, labels=labels, autopct='%1.1f%%')
 plt.title('Passengers Who Survived vs. Passengers Who Died on Titanic')
 plt.show()
 
-import pandas as pd
-import matplotlib.pyplot as plt
-
-titanic_data = pd.read_csv("train.csv")
-
-total_females = (titanic_data['Sex'] == 'female').sum()
-total_females_died = ((titanic_data['Sex'] == 'female') & (titanic_data['Survived'] == 0)).sum()
+total_females = (df['Sex'] == 'female').sum()
+total_females_died = ((df['Sex'] == 'female') & (df['Survived'] == 0)).sum()
 labels = ['Total Females', 'Females Who Died']
 sizes = [total_females, total_females_died]
 
@@ -124,15 +100,8 @@ plt.title('Total Females vs. Females Who Died on Titanic')
 
 plt.show()
 
-import pandas as pd
-import matplotlib.pyplot as plt
-
-
-titanic_data = pd.read_csv("train.csv")
-
-
-total_males = (titanic_data['Sex'] == 'male').sum()
-total_males_died = ((titanic_data['Sex'] == 'male') & (titanic_data['Survived'] == 0)).sum()
+total_males = (df['Sex'] == 'male').sum()
+total_males_died = ((df['Sex'] == 'male') & (df['Survived'] == 0)).sum()
 
 
 labels = ['Total Males', 'Males Who Died']
@@ -143,9 +112,6 @@ plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
 plt.title('Total Males vs. Males Who Died on Titanic')
 plt.show()
 
-import pandas as pd
-df = pd.read_csv("train.csv")
-
 embarked_counts = df['Embarked'].value_counts()
 
 majority_embarked = embarked_counts.idxmax()
@@ -154,9 +120,6 @@ df['Embarked'].fillna(majority_embarked, inplace=True)
 
 df.to_csv("train.csv", index=False)
 
-df = pd.read_csv("train.csv")
-df
-
 print('Oldest Passenger was of:',df['Age'].max(),'Years')
 print('Youngest Passenger was of:',df['Age'].min(),'Years')
 print('Average Age on the ship:',df['Age'].mean(),'Years')
@@ -164,20 +127,13 @@ print('Average Age on the ship:',df['Age'].mean(),'Years')
 nan_counts = df.isna().sum()
 print(nan_counts)
 
-import pandas as pd
-
 df['Cabin'].fillna('Unknown', inplace=True)
 df['Cabin_Available'] = df['Cabin'].apply(lambda x: 0 if x == 'Unknown' else 1)
 
 df['Deck'] = df['Cabin'].str.slice(0, 1)
 
-"""nan_counts = df.isna().sum()
+nan_counts = df.isna().sum()
 print(nan_counts)
-
-"""
-
-import pandas as pd
-
 
 mean_age = df['Age'].mean()
 
@@ -186,27 +142,16 @@ df['Age'].fillna(mean_age, inplace=True)
 nan_counts = df.isna().sum()
 print(nan_counts)
 
-import pandas as pd
-
 passengers_per_class = df.groupby('Pclass').size()
 
 
 print("Total number of passengers in each class:")
 print(passengers_per_class)
 
-import pandas as pd
-
 passengers_per_class_sex = df.groupby(['Pclass', 'Sex']).size()
-
-
 print(passengers_per_class_sex)
 
-import pandas as pd
-import matplotlib.pyplot as plt
-
 passengers_per_class_sex = df.groupby(['Pclass', 'Sex']).size().unstack()
-
-
 passengers_per_class_sex.plot(kind='bar', stacked=True, figsize=(10, 6))
 
 
@@ -217,9 +162,6 @@ plt.ylabel('Number of Passengers')
 plt.legend(title='Sex')
 plt.show()
 
-import pandas as pd
-
-
 survived_males = df[(df['Sex'] == 'male') & (df['Survived'] == 1) & (df['Pclass'].isin([1, 2, 3]))]
 
 total_survived_males_per_class = survived_males.groupby('Pclass').size()
@@ -227,31 +169,23 @@ total_survived_males_per_class = survived_males.groupby('Pclass').size()
 print("Total males survived from each class:")
 print(total_survived_males_per_class)
 
-total_survived_males_per_class.plot(kind='bar', color='skyblue', figsize=(8, 6))
+total_survived_males_per_class.plot(kind='pie', colors=['skyblue', 'orange', 'green'], autopct='%1.1f%%', figsize=(8, 6))
 
-plt.title('Total Males Survived in Each Passenger Class')
-plt.xlabel('Passenger Class')
-plt.ylabel('Total Number of Males Survived')
+plt.title('Distribution of Males Survived Across Passenger Classes')
+plt.ylabel('')
+plt.legend(title='Passenger Class', loc='upper right')
 plt.show()
-
-import pandas as pd
-import matplotlib.pyplot as plt
 
 survived_females = df[(df['Sex'] == 'female') & (df['Survived'] == 1) & (df['Pclass'].isin([1, 2, 3]))]
 
 total_survived_females_per_class = survived_females.groupby('Pclass').size()
 
+total_survived_females_per_class.plot(kind='pie', colors=['lightgreen', 'lightblue', 'lightcoral'], autopct='%1.1f%%', figsize=(8, 6))
 
-total_survived_females_per_class.plot(kind='bar', color='lightgreen', figsize=(8, 6))
-
-plt.title('Total Females Survived in Each Passenger Class')
-plt.xlabel('Passenger Class')
-plt.ylabel('Total Number of Females Survived')
-
+plt.title('Distribution of Females Survived Across Passenger Classes')
+plt.ylabel('')
+plt.legend(title='Passenger Class', loc='upper right')
 plt.show()
-
-import pandas as pd
-import matplotlib.pyplot as plt
 
 survived_males = df[(df['Sex'] == 'male') & (df['Survived'] == 1) & (df['Pclass'].isin([1, 2, 3]))]
 survived_females = df[(df['Sex'] == 'female') & (df['Survived'] == 1) & (df['Pclass'].isin([1, 2, 3]))]
@@ -260,11 +194,10 @@ total_survived_males_per_class = survived_males.groupby('Pclass').size()
 total_survived_females_per_class = survived_females.groupby('Pclass').size()
 
 fig, ax = plt.subplots(figsize=(10, 6))
+ax.bar(total_survived_males_per_class.index, total_survived_males_per_class, color='skyblue', label='Males')
 
-ax.bar(total_survived_males_per_class.index - 0.2, total_survived_males_per_class, width=0.4, color='skyblue', label='Males')
 
-ax.bar(total_survived_females_per_class.index + 0.2, total_survived_females_per_class, width=0.4, color='lightgreen', label='Females')
-
+ax.bar(total_survived_females_per_class.index, total_survived_females_per_class, bottom=total_survived_males_per_class, color='lightgreen', label='Females')
 
 ax.set_title('Total Males and Females Survived in Each Passenger Class')
 ax.set_xlabel('Passenger Class')
@@ -293,17 +226,17 @@ print('Total passengers that survived from Q Port' ,Q_survived)
 plt.figure(figsize=(8, 6))
 labels = ['Southampton', 'Cherbourg', 'Queenstown']
 sizes = [S_survived, C_survived, Q_survived]
-plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
+plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
 plt.title('Survival Distribution by Port of Embarkation')
 
 Fare = df.groupby('Pclass')['Fare'].mean()
 print(Fare)
 
-categories = ['Class 1', 'Class 2','Class 3']
-plt.bar(categories, Fare)
-plt.xlabel('Classes')
-plt.ylabel('Fare')
-plt.title('Avg Fare Per class')
+categories = ['Class 1', 'Class 2', 'Class 3']
+plt.pie(Fare, labels=categories, autopct='%1.1f%%', colors=['lightblue', 'lightcoral', 'lightgreen'], startangle=140)
+plt.title('Distribution of Average Fare Across Passenger Classes')
+plt.axis('equal')
+plt.show()
 
 Total_Minors = df[df['Age'] < 15].shape[0]
 Total_Minors
@@ -336,7 +269,7 @@ total_old_people_survived = df[(df['Age'] > 60) & (df['Survived'] == 1)].shape[0
 total_old_people_survived
 
 labels = ['Old People Dead', 'Old People Survived']
-sizes = [17,5]
+sizes = [Total_old_people,total_old_people_survived]
 plt.pie(sizes, labels=labels, autopct='%1.1f%%')
 plt.title('Survival distribution for Old people')
 
@@ -346,5 +279,33 @@ print(correlation)
 import seaborn as sns
 sns.heatmap(correlation, cmap='coolwarm',annot =True)
 plt.title('Correlation Matrix')
+plt.show()
+
+# df['Sex'] = df['Sex'].map({'male': 0, 'female': 1})
+# # df.dropna(subset=['Age'], inplace=True)
+# corr_matrix = df.corr()
+
+# # Plot correlation matrix heatmap
+# plt.figure(figsize=(10, 8))
+# sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f", annot_kws={"size": 10})
+# plt.title('Correlation Matrix of Titanic Dataset')
+# plt.show()
+
+passengers_with_family = df[(df['SibSp'] > 0) | (df['Parch'] > 0)].shape[0]
+passengers_with_family
+
+passengers_with_family = df[(df['SibSp'] > 0) | (df['Parch'] > 0)]
+
+num_passengers_died_with_family = passengers_with_family[passengers_with_family['Survived'] == 0].shape[0]
+
+num_passengers_died_with_family
+
+num_passengers_died_with_family = passengers_with_family[passengers_with_family['Survived'] == 0].shape[0]
+num_passengers_survived_with_family = passengers_with_family[passengers_with_family['Survived'] == 1].shape[0]
+
+labels = ['Survived', 'Died']
+sizes = [num_passengers_survived_with_family, num_passengers_died_with_family]
+plt.pie(sizes, labels=labels, autopct='%1.1f%%')
+plt.title('People With Atleast One Family Member')
 plt.show()
 
